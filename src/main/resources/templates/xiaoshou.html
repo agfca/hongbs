@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>销售人员</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/rangedate/daterangepicker.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<script th:src="@{/js/plugins/rangedate/moment.min.js}"></script>
+	<script th:src="@{/js/plugins/rangedate/daterangepicker.js}"></script>
+
+	<script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+	<header class="header fl">
+		<div class="header-center centera">
+			<img th:src="@{/images/logo_03.png}" alt="" class="logo">
+			<!-- PC显示-->
+			<ul class="dcla-ul">
+				<li class=" activea  active">销售人员
+					<ol class="active-ol" style="display: none;">
+					</ol>
+				</li>
+			 
+				<span class="spann"><b th:text="${session.user.getName()}"></b><a
+					href="/users?method=changePass" class="xg-password">修改密码</a><a
+					href="/layout" class="xg-password">退出 &nbsp;&nbsp;</a></span>
+			</ul>
+		</div>
+		<img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+	</header>
+	<div class="tj-div">
+		<!-- 时间-->
+	</div>
+
+	<!--容器-->
+	<div class="container">
+		<div class="row">
+			<div id="toolbar" class="btn-group">
+				<button type="button" class="btn btn-default" onclick="openAddOrderDiv();">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+				</button>
+                <button type="button" class="btn btn-default" onclick="removeOrder();">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                </button>
+			</div>
+			<table id="userJson">
+			</table>
+		</div>
+	</div>
+
+	<!--添加   订单弹出div-->
+	<div class="modal fade" id="addOrderDiv" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" style="text-align: center">添加订单</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="orderName" class="control-label">* 订单名称：</label>
+						<input type="text" id="orderName" placeholder="部门_单位_服装类别" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="partyA" class="control-label">* 单位名称：</label>
+						<input type="text" id="partyA" placeholder="请输入单位名称" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="deliveryTime" class="control-label">* 交货时间：</label>
+						<input type="text" id="deliveryTime" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="orderName" class="control-label">&nbsp;&nbsp;备注：</label>
+						<input type="text" id="remark" placeholder="根据情况输入备注" class="form-control">
+					</div>
+				</div>
+				<div class="modal-footer">
+                    <button type="button" onclick="addOrder();"class="btn btn-info center-block" style="border-radius: 50px;">确认添加</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!--修改   订单弹出div-->
+    <div class="modal fade" id="changeOrderDiv" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="text-align: center">修改订单</h4>
+                </div>
+                <div class="modal-body">
+                    <!--隐藏changeOrderId-->
+                    <input id="changeOrderId" type="text" style="display: none;">
+                    <div class="form-group">
+                        <label for="changeOrderName" class="control-label">* 订单名称：</label>
+                        <input type="text" id="changeOrderName" placeholder="部门_单位_服装类别" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="changePartyA" class="control-label">* 单位名称：</label>
+                        <input type="text" id="changePartyA" placeholder="请输入单位名称" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="changeDeliveryTime" class="control-label">* 交货时间：</label>
+                        <input type="text" id="changeDeliveryTime" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="changeRemark" class="control-label">&nbsp;&nbsp;备注：</label>
+                        <input type="text" id="changeRemark" placeholder="根据情况输入备注" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="changeButton" onclick="changeOrder();" class="btn btn-warning center-block" style="border-radius: 50px;">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script th:src="@{/js/xiaoshou.js}"></script>
+	<script>
+
+ 	</script>
+
+</body>
+</html>

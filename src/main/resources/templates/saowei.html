@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>扫尾</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+
+    <script th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+<header class="header fl">
+    <div class="header-center centera">
+        <img th:src="@{/images/logo_03.png}" alt="" class="logo">
+        <!-- PC显示-->
+        <ul class="dcla-ul">
+            <li class=" activea  active">扫尾
+                <ol class="active-ol" style="display: none;">
+                </ol>
+            </li>
+ 			<span class="spann"><b th:text="${session.user.getName()}"></b><a href="/users?method=changePass" class="xg-password">修改密码</a><a href="/layout" class="xg-password">退出 &nbsp;&nbsp;</a></span>
+        </ul>
+    </div>
+    <img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+</header>
+<div class="tj-div">
+    <!-- 时间-->
+</div>
+<div class="main table-responsive">
+             <table id="user9Json" class="table tabla table-bordered table-hover tablb tabll"  style=" border: 1px solid #ddd;">
+            </table>
+ </div>
+<script th:src="@{/js/saowei.js}"></script>
+<script>
+		$(document).ready(function(e) {
+			var counter = 0;
+			if (window.history && window.history.pushState) {
+				$(window).on('popstate', function() {
+					window.history.pushState('forward', null, '#');
+					window.history.forward(1);
+					alert("回退是登录界面......");
+				});
+			}
+
+ 		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>修改订单配置</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrap-editable/bootstrap-editable.css}">
+
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-editable/bootstrap-editable.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<!--引入JS-->
+
+</head>
+<body>
+
+
+<div class="container">
+	<div class="row">
+		<table class="table table-bordered">
+			<caption>
+				<div class="row">
+					<div class='col-sm-5'></div><div class='col-sm-1'><img src="/images/hongbs.svg"></div>
+					<div  width="150px">重庆泓搏仕服饰有限公司<br>生产计划单</div><div class='col-sm-5'></div>
+				</div>
+			</caption>
+			<tr>
+				<th>单号：<span th:text="${order.oddNum}?${order.oddNum}:'还未下单'"></span></th>
+				<th>学校名称：<span th:text="${order.partyA}"></span></th>
+				<th>订单名称：<span th:text="${order.orderName}?${order.orderName}:'bug请联系管理员'"></span></th>
+			</tr>
+			<tr>
+				<th>下单时间：<span th:text="${order.oddNum}?${order.orderTime}:'还未下单'"></span></th>
+				<th>交货时间：<span th:text="${order.deliveryTime}"></span></th>
+				<td></td>
+			</tr>
+			<tr>
+				<th colspan="2">* 配置：<a href="javascript:void(0);" id="infoName"></a></th>
+				<td>* 总数：<a href="javascript:void(0);" id="total"></a></td>
+			</tr>
+			<tr>
+				<td colspan="2"  style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;">
+					<table id="fabricTable" class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<thead>
+							<tr>
+								<th>* 面料<button onclick='openFabricDiv();' type='button' class='btn btn-sm' style="float: right">
+									<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>添加</button>
+								</th>
+								<th>颜色</th>
+								<th colspan="2">* 工艺要求</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td height="0px"style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;"></td>
+								<td height="0px"style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;"></td>
+								<td colspan="2" class="col-sm-4" rowspan="10" style="word-wrap: break-word">
+									<a href="javascript:void(0);" id="gongyi"></a>
+								</td>
+							</tr>
+							<tr th:each="fabric:${fabrics}">
+								<td>
+									<span class='fabricName' th:text="${fabric.name}"></span><button onclick="delFabric(this);" type='button' class='btn btn-sm' style="float: right">
+									<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>删除</button>
+								</td>
+								<td>
+									<span class='fabricColor' th:text="${fabric.color}"></span>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>* 款式</th>
+								<th colspan="3"><a href="javascript:void(0);" id="style"></a></th>
+							</tr>
+							<tr>
+								<th colspan="4">* 款式图</th>
+							</tr>
+							<tr>
+								<td colspan="4" class="row">
+
+									<p><a href="javascript:void(0);" onclick="addStyleFile();">添加款式图片</a></p>
+									<p id="styleImage"></p>
+									<!--<img src="/images/test1.png" class="col-sm-4">
+									<img src="/images/test2.png" class="col-sm-4">-->
+								</td>
+							</tr>
+							<tr>
+								<th colspan="4">* 有无给客户留样衣：<a href="javascript:void(0);" id="giveKH"></a></th>
+							</tr>
+							<tr>
+								<th>* 含量</th>
+								<th colspan="3"><a href="javascript:void(0);" id="containFabric"></a></th>
+							</tr>
+							<tr>
+								<th>* 校微</th>
+								<th><a href="javascript:void(0);" id="logoStation"></a></th>
+								<th>* 位置</th>
+								<td>
+									<!--<img src="/images/test3.png">-->
+									<p><a href="javascript:void(0);" onclick="addLogoFile();">选择校徽图片</a></p>
+									<p>（重复提交会替换）</p>
+									<p id="logoImage"><img src=""></p>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</td>
+				<td class="col-sm-4" style="  padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;">
+					<!--型号数量table-->
+					<table class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<tr>
+							<th>型号（身高）</th>
+							<th>数量</th>
+						</tr><tr>
+							<td>XXS(110)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXS}"></a></td>
+						</tr><tr>
+							<td>XXS_M(115)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXS_M}"></a></td>
+						</tr><tr>
+							<td>XS(120)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XS}"></a></td>
+						</tr><tr>
+							<td>XS_M(125)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XS_M}"></a></td>
+						</tr><tr>
+							<td>S(130)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.S}"></a></td>
+						</tr><tr>
+							<td>S_M(135)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.S_M}"></a></td>
+						</tr><tr>
+							<td>M(140)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.M}"></a></td>
+						</tr><tr>
+							<td>M_M(145)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.M_M}"></a></td>
+						</tr><tr>
+							<td>L(150)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.L}"></a></td>
+						</tr><tr>
+							<td>L_M(155)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.L_M}"></a></td>
+						</tr><tr>
+							<td>XL(160)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XL}"></a></td>
+						</tr><tr>
+							<td>XL_M(165)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XL_M}"></a></td>
+						</tr><tr>
+							<td>XXL(170)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXL}"></a></td>
+						</tr><tr>
+							<td>XXL_M(175)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXL_M}"></a></td>
+						</tr><tr>
+							<td>XXXL(180)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXXL}"></a></td>
+						</tr><tr>
+							<td>XXXL_M(185)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXXL_M}"></a></td>
+						</tr><tr>
+							<td>XXXXS(190)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXXXS}"></a></td>
+						</tr><tr>
+							<td>XXXXS_M(195)</td>
+							<td><a href="javascript:void(0);" class="modelNum" th:text="${orderInfo.XXXXS_M}"></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+		<!--添加面料弹出div-->
+		<div class="modal fade" id="fabricDiv" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">添加面料</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="fabricName" class="control-label">面料：</label>
+							<input type="text" class="form-control" id="fabricName">
+						</div>
+						<div class="form-group">
+							<label for="fabricColor" class="control-label">颜色：</label>
+							<input type="text" class="form-control" id="fabricColor">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary" onclick="addFabric();">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<script th:inline="javascript">
+        /*<![CDATA[*/
+		var order = [[${order}]];
+		var orderInfo = [[${orderInfo}]];
+
+		var styleTemp = eval(orderInfo.styleImage);
+        var orderId = [[${order.id}]];
+
+        var logoFile = null;//校徽
+        var styleFile = [];//款式图片
+
+        if(orderInfo.logoFile!=null&&orderInfo.logoFile.length>0){
+            logoFile = orderInfo.logoFile;
+            /*页面加载图片预览*/
+            $("#logoImage").html("<img width='200px' src='/word/"+orderId+"/"+logoFile+"'>");
+
+        }
+		if(styleTemp!=null&&styleTemp.length>0){
+            styleFile = styleTemp;
+            /*页面加载图片预览*/
+            var tempHtml = "";
+            for(var i = 0 ; i<styleFile.length; i++){
+                tempHtml += "<img width='200px' src='/word/"+orderId+"/"+styleFile[i]+"'>"
+            }
+            $("#styleImage").html(tempHtml);
+		}
+        /*]]>*/
+        /**
+         * 业务数据
+		 * 添加配置
+         * */
+
+	</script>
+	<script src=/js/editOrderInfo.js th:inline="javascript"></script>
+
+
+</body>
+</html>

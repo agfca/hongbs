@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/layer/layer.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+
+</head>
+
+<body class="admin-bj">
+	<div class="bj">
+
+		<div class="admin">
+			<div class="damin-cenre">
+				<p>
+					<img th:src="@{/images/logov_03.png}" alt="">
+				</p>
+				<p>
+					<span class="hea">订单流程管理系统</span>
+				</p>
+
+				<div class="foram">
+					<img th:src="@{/images/fk-a_07.png}" class="fk-dw">
+
+					<div class="fk" style="padding-top:20px;">
+						<label for="#"><img th:src="@{/images/yh_15.png}">
+						</label><input type="text" value="" name="username" id="username"
+							placeholder="用户名" class="form-control">
+					</div>
+					<div class="fk">
+						<label for="#"><img th:src="@{/images/psw_11.png}">
+						</label><input type="password" name="pwd" id="pwd" value=""
+							placeholder="密码" class="form-control">
+					</div>
+					<div class="fk">
+						<button type="button" onclick="login();">登陆 </button>
+					</div>
+
+					<div class="fk" style="margin-top:20px;">
+						<p class="yh-jz">
+							 忘记密码及登录名 找管理员
+						</p>
+					</div>
+				</div>
+
+ 			</div>
+		</div>
+	</div>
+</body>
+<script>
+	$(document).ready(function(e) {
+ 		var counter = 0;
+		if (window.history && window.history.pushState) {
+			$(window).on('popstate', function() {
+				window.history.pushState('forward', null, '#');
+				window.history.forward(1);
+				alert("回退不了了,已经是登录界面了");
+			});
+		}
+	});
+</script>
+<script th:src="@{/js/login.js}"></script>
+</html>

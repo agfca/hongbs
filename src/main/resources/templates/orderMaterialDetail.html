@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>材料详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrap-editable/bootstrap-editable.css}">
+
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-editable/bootstrap-editable.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<!--引入JS-->
+
+</head>
+<body>
+
+	<div class="main table-responsive">
+		<table id="orderDetail">
+		</table>
+	</div>
+<div class="container">
+	<div class="row">
+		<table class="table table-bordered">
+			<caption>
+				<div class="row">
+					<div class='col-sm-5'></div><div class='col-sm-1'><img src="/images/hongbs.svg"></div>
+					<div  width="150px">重庆泓搏仕服饰有限公司<br>生产计划单</div><div class='col-sm-5'></div>
+				</div>
+			</caption>
+			<tr>
+				<th>单号：<span th:text="${order.oddNum}?${order.oddNum}:'还未下单'"></span></th>
+				<th>学校名称：<span th:text="${order.partyA}"></span></th>
+				<th>订单名称：<span th:text="${order.orderName}?${order.orderName}:'bug'"></span></th>
+			</tr>
+			<tr>
+				<th colspan="2">
+					配置名称：
+					<span th:each="orderInfo:${orderInfos}">
+						<span th:text="${orderInfo.infoName}"></span>&nbsp;
+					</span>
+				</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>下单时间：<span th:text="${order.oddNum}?${order.orderTime}:'还未下单'"></span></th>
+				<th>交货时间：<span th:text="${order.deliveryTime}"></span></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<table class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<tr>
+							<th>序号</th>
+							<th>材料名称</th>
+							<th>供应商</th>
+							<th>数量</th>
+							<th>单位耗料/幅宽</th>
+							<th>合计耗料（米）</th>
+							<th>合计耗料（公斤）</th>
+							<th>是否下单</th>
+							<th>是否到货</th>
+							<th>备注</th>
+						</tr>
+						<tbody th:each="orderInfo:${orderInfos}" th:class="${orderInfo.id}">
+							<!--订单配置-->
+							<tr>
+								<td>
+
+								</td>
+								<th colspan="9" style="text-align: center"><span th:text="${orderInfo.infoName}"></span></th>
+							</tr>
+
+							<tr th:each="orderMaterial:${orderMaterials}" th:if="${orderMaterial.infoid==orderInfo.id}">
+								<td></td>
+								<td><a href="javascript:void(0);" class="materialName" th:text="${orderMaterial.materialName}"></a></td>
+								<td><a href="javascript:void(0);" class="supplierName" th:text="${orderMaterial.supplierName}"></a></td>
+								<td><a href="javascript:void(0);" class="quantity" th:text="${orderMaterial.quantity}"></a></td>
+								<td><a href="javascript:void(0);" class="unit" th:text="${orderMaterial.unit}"></a></td>
+								<td><a href="javascript:void(0);" class="summation" th:text="${orderMaterial.summation}"></a></td>
+								<td><a href="javascript:void(0);" class="summationStr" th:text="${orderMaterial.summationStr}"></a></td>
+								<td><a href="javascript:void(0);" class="isorder" th:text="${orderMaterial.isorder}"></a></td>
+								<td><a href="javascript:void(0);" class="isover" th:text="${orderMaterial.isover}"></a></td>
+								<td><a href="javascript:void(0);" class="remark" th:text="${orderMaterial.remark}"></a></td>
+							</tr>
+
+						</tbody>
+
+					</table>
+				</td>
+			</tr>
+
+			</tr>
+		</table>
+
+	</div>
+</div>
+	<script th:inline="javascript">
+        /*<![CDATA[*/
+        //配置数组
+       var infoArray = [[${orderInfos}]];
+
+       var orderId = [[${order.id}]];
+
+
+	</script>
+
+</body>
+</html>

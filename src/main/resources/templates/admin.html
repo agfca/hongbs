@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>统计页面</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/rangedate/daterangepicker.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/rangedate/moment.min.js}"></script>
+	<script th:src="@{/js/plugins/rangedate/daterangepicker.js}"></script>
+	<script th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+	<header class="header fl">
+		<div class="header-center centera">
+			<img th:src="@{/images/logo_03.png}" alt="" class="logo">
+			<!-- PC显示-->
+			<ul class="dcla-ul">
+				<li class=" activea  active">统计页面
+					<ol class="active-ol" style="display: none;">
+					</ol>
+				</li>
+				<li class=" activea  active"><a href="/users?method=toqx">分配权限</a></li>
+				<span class="spann"><b th:text="${session.user.getName()}"></b><a
+					href="/users?method=changePass" class="xg-password">修改密码</a><a
+					href="/layout" class="xg-password">退出 &nbsp;&nbsp;</a></span>
+			</ul>
+		</div>
+		<img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+	</header>
+	<div class="tj-div">
+		<!-- 时间-->
+		<!--<form action="/order?method=findOrder" method="post">
+			<div class="dataa">
+				<div class="input-append date form_datetime">
+					<label>开始时间:</label><input size="16" type="date"
+						th:value="${startTime}" id="startTime" name="startTime"> <label>结束时间:</label><input
+						size="16" type="date" th:value="${endTime}" id="endTime"
+						name="endTime">
+				</div>
+				<label>单号 ：</label> <input type="text" th:value="${oddNum}"
+					class="suosu-k" id="oddNum" name="oddNum"> <label>单位名称:</label>
+				<input type="text" th:value="${partyA}" class="suosu-k" id="partyA"
+					name="partyA"> <input type="submit" value="搜索"
+					class="ane obc">
+			</div>
+		</form>-->
+	</div>
+	<!--<div class="main table-responsive">
+		<table id="user7Json"
+			class="table tabla table-bordered table-hover tablb tabll"
+			style="border: 1px solid #ddd;">
+			<thead>
+				<tr th:if="${size eq 0}">
+					<td>无对应数据</td>
+				</tr>
+				<tr th:if="${size > 0}">
+					<th>单号</th>
+					<th>订单名称</th>
+					<th>学校</th>
+					<th>下单时间</th>
+					<th>交货时间</th>
+					<th>备注</th>
+					<th>订单状态</th>
+					<th>下载文档</th>
+				</tr>
+			</thead>
+
+			<tbody class="table-e">
+				<tr th:each="lm : ${list}">
+					<td th:each="entry : ${lm}" th:text="${entry.oddNum}"></td>
+					<td th:each="entry : ${lm}" th:text="${entry.orderName}"></td>
+					<td th:each="entry : ${lm}" th:text="${entry.partyA}"></td>
+					<td th:each="entry : ${lm}" th:text="${entry.orderTime}"></td>
+					<td th:each="entry : ${lm}" th:text="${entry.deliveryTime}"></td>
+					<td th:each="entry : ${lm}" th:text="${entry.remark}"></td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '1'}">销售</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '2'}">工艺复核销售</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '5'}">工艺复核制版</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '3'}">下单</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '4'}">制版</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '6'}">采购</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '7'}">生产管理</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '16'}">复核</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '17'}">总管</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '8'}">厂部</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '9'}">配料</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '15'}">裁床</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '9_1'}">厂部</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '9_2'}">厂部</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '9_3'}">厂部</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '10'}">扫尾</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '11'}">后勤送货配车</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '111'}">直营部送货</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '112'}">招商部送货</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '113'}">外贸部送货</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '12'}">售后服务中</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '131'}">直营部收款中</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '132'}">招商部收款中</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '133'}">外贸部收款中</td>
+					<td th:each="entry : ${lm}" th:if="${entry.orderStatu eq '0'}">收款完成</td>
+					<td th:each="entry : ${lm}"
+						th:if="${entry.modelFile != '' and entry.modelFile != null}">
+						<input type="button"
+						th:onclick="'javascript:getFile(\''+${entry.modelFile}+'\');'"
+						value="下载下单表" />
+						<span th:each="entry : ${lm}"
+						th:if="${entry.mainFabricFile != '' and entry.mainFabricFile != null}">
+						<input type="button"
+						th:onclick="'javascript:getFile(\''+${entry.mainFabricFile}+'\');'"
+						value="下载制版图" />
+					</span>
+					<span th:each="entry : ${lm}"
+						th:if="${entry.file2Name != '' and entry.file2Name != null}">
+						<input type="button"
+						th:onclick="'javascript:getFile(\''+${entry.file2Name}+'\');'"
+						value="下载材料计划单" />
+					</span>
+					<span th:each="entry : ${lm}"
+						th:if="${entry.auxFabricFile != '' and entry.auxFabricFile != null}">
+						<input type="button"
+						th:onclick="'javascript:getFile(\''+${entry.auxFabricFile}+'\');'"
+						value="下载采购单" />
+					</span>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>-->
+
+
+	<!--容器-->
+	<div class="container">
+		<div class="row">
+			<div id="toolbar" class="btn-group">
+				<input id="reportrange" class="pull-left form-control" readonly="readonly" style="width:200px">
+			</div>
+			<table id="userJson">
+			</table>
+		</div>
+	</div>
+
+
+	<script th:src="@{/js/admin.js}"></script>
+	<script>
+		$(document).ready(function(e) {
+			var counter = 0;
+			if (window.history && window.history.pushState) {
+				$(window).on('popstate', function() {
+					window.history.pushState('forward', null, '#');
+					window.history.forward(1);
+					alert("回退是登录界面......");
+				});
+			}
+		});
+	</script>
+
+</body>
+</html>

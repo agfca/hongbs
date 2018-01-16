@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>制版</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<script th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+	<input type="text" style="display: none" id="msg" th:value="${msg}" />
+
+	<header class="header fl">
+		<div class="header-center centera">
+			<img th:src="@{/images/logo_03.png}" alt="" class="logo">
+			<!-- PC显示-->
+			<ul class="dcla-ul">
+				<li class=" activea  active">制版管理
+					<ol class="active-ol" style="display: none;">
+					</ol>
+				</li>
+ 			<span class="spann"><b th:text="${session.user.getName()}"></b><a href="/users?method=changePass" class="xg-password">修改密码</a><a href="/layout" class="xg-password">退出 &nbsp;&nbsp;</a></span>
+			</ul>
+		</div>
+		<img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+	</header>
+	<div class="tj-div">
+		<!-- 时间-->
+	</div>
+
+	<!--容器-->
+	<div class="container">
+		<div class="row">
+
+			<table id="userJson">
+			</table>
+		</div>
+	</div>
+
+	<!--上传制版文件   订单弹出div-->
+	<div class="modal fade" id="addOrderDiv" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" style="text-align: center">上传制版</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="orderName1" class="control-label">* 订单名称：</label>
+						<input type="text" id="orderName1" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="orderFile" class="control-label">* 制版文件：</label>
+						<input type="file" id="orderFile" placeholder="请输入单号" class="form-control">
+					</div>
+					<input type="text" id="orderId" class="form-control" style="display: none;">
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="addZhibanFile();"class="btn btn-info center-block" style="border-radius: 50px;">确认提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--form上传制版文件-->
+	<!--<form method="post" id="ff" enctype="multipart/form-data">
+		<div class="main xg-mm">
+			<p>
+				<label>订单名称:</label><input type="text" disabled readonly
+					id="orderName" name="orderName" placeholder="请输入订单名称"
+					class="xg-mm-font form-control">
+			</p>
+
+			<p id="file_p">
+				<span class="span-z"><label>上传制图文件:</label><input
+					  type="file" id="file" name="file"
+					multiple="multiple" class="xg-mm-font"></span>
+			</p>
+
+			<p>
+				<input type="button" value="确认修改" class="xg-an"
+					onclick="changerOrder();">
+			</p>
+			<input type="text" style="display: none" id="id" name="id" value=""/>
+		</div>
+	</form>-->
+	<script th:src="@{/js/zhiban.js}"></script>
+	<script>
+		var msg = $("#msg").val();
+		if (msg == "OK") {
+			alert("上传成功");
+		} else if (msg == "NO") {
+			alert("修改失败,请重试。");
+		}
+		$("#msg").val("");
+	</script>
+	<script>
+		$(document).ready(function(e) {
+			var counter = 0;
+			if (window.history && window.history.pushState) {
+				$(window).on('popstate', function() {
+					window.history.pushState('forward', null, '#');
+					window.history.forward(1);
+					alert("回退是登录界面......");
+				});
+			}
+  		});
+	</script>
+</body>
+</html>

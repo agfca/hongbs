@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>材料详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrap-editable/bootstrap-editable.css}">
+
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-editable/bootstrap-editable.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<!--引入JS-->
+
+</head>
+<body>
+
+	<div class="main table-responsive">
+		<table id="orderDetail">
+		</table>
+	</div>
+<div class="container">
+	<div class="row">
+		<table class="table table-bordered">
+			<caption>
+				<div class="row">
+					<div class='col-sm-5'></div><div class='col-sm-1'><img src="/images/hongbs.svg"></div>
+					<div  width="150px">重庆泓搏仕服饰有限公司<br>生产计划单</div><div class='col-sm-5'></div>
+				</div>
+			</caption>
+			<tr>
+				<th>单号：<span th:text="${order.oddNum}?${order.oddNum}:'还未下单'"></span></th>
+				<th>学校名称：<span th:text="${order.partyA}"></span></th>
+				<th>订单名称：<span th:text="${order.orderName}?${order.orderName}:'bug'"></span></th>
+			</tr>
+			<tr>
+				<th colspan="2">
+					配置名称：
+					<span th:each="orderInfo:${orderInfos}">
+						<span th:text="${orderInfo.infoName}"></span>&nbsp;
+					</span>
+				</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>下单时间：<span th:text="${order.oddNum}?${order.orderTime}:'还未下单'"></span></th>
+				<th>交货时间：<span th:text="${order.deliveryTime}"></span></th>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<table class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<tr>
+							<th>序号</th>
+							<th>材料名称</th>
+							<th>供应商</th>
+							<th>数量</th>
+							<th>单位耗料/幅宽</th>
+							<th>合计耗料（米）</th>
+							<th>合计耗料（公斤）</th>
+							<th>是否下单</th>
+							<th>是否到货</th>
+							<th>备注</th>
+						</tr>
+						<tbody th:each="orderInfo:${orderInfos}" th:class="${orderInfo.id}">
+							<!--订单配置-->
+							<tr>
+								<td>
+									<button onclick='openAddDiv(this);' type='button' class='btn btn-sm' style="float: right">
+										<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>添加</button>
+								</td>
+								<th colspan="9" style="text-align: center"><span th:text="${orderInfo.infoName}"></span></th>
+							</tr>
+
+							<tr th:each="orderMaterial:${orderMaterials}" th:if="${orderMaterial.infoid==orderInfo.id}">
+								<td><button onclick="delFabric(this);" type='button' class='btn btn-sm' style="float: right">
+									<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>删除</button></td>
+								<td><a href="javascript:void(0);" class="materialName" th:text="${orderMaterial.materialName}"></a></td>
+								<td><a href="javascript:void(0);" class="supplierName" th:text="${orderMaterial.supplierName}"></a></td>
+								<td><a href="javascript:void(0);" class="quantity" th:text="${orderMaterial.quantity}"></a></td>
+								<td><a href="javascript:void(0);" class="unit" th:text="${orderMaterial.unit}"></a></td>
+								<td><a href="javascript:void(0);" class="summation" th:text="${orderMaterial.summation}"></a></td>
+								<td><a href="javascript:void(0);" class="summationStr" th:text="${orderMaterial.summationStr}"></a></td>
+								<td><a href="javascript:void(0);" class="isorder" th:text="${orderMaterial.isorder}"></a></td>
+								<td><a href="javascript:void(0);" class="isover" th:text="${orderMaterial.isover}"></a></td>
+								<td><a href="javascript:void(0);" class="remark" th:text="${orderMaterial.remark}"></a></td>
+							</tr>
+
+						</tbody>
+
+					</table>
+				</td>
+			</tr>
+
+			</tr>
+		</table>
+
+		<button type="button" class="center-block btn btn-info" onclick="addOrderMaterial();">保存修改</button>
+
+		<!--添加材料弹出div-->
+		<div class="modal fade" id="fabricDiv" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">添加材料</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="materialName" class="control-label">* 材料名称：</label>
+							<input type="text" class="form-control" id="materialName">
+						</div>
+						<div class="form-group">
+							<label for="supplierName" class="control-label">* 供应商：</label>
+							<input type="text" class="form-control" id="supplierName">
+						</div>
+						<div class="form-group">
+							<label for="quantity" class="control-label">* 数量（不填为0）：</label>
+							<input type="text" class="form-control" id="quantity">
+						</div>
+						<div class="form-group">
+							<label for="remark" class="control-label"> 备注：</label>
+							<input type="text" class="form-control" id="remark">
+						</div>
+						<div class="form-group">
+							<label for="unit" class="control-label">* 单位幅度：</label>
+							<input type="radio" name="unitType" value="0" checked/> 米/个/颗（只能输入数字）
+							<input type="radio" name="unitType" value="1" /> 其他
+							<input type="text" class="form-control" id="unit">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary" onclick="addFabric();">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+	<script src=/js/editOrderMaterail.js th:inline="javascript"></script>
+	<script th:inline="javascript">
+
+        /*<![CDATA[*/
+        //配置数组
+       var infoArray = [[${orderInfos}]];
+
+       var orderId = [[${order.id}]];
+        /*]]>*/
+
+		/*数据交互js*/
+        //保存材料清单
+        function addOrderMaterial() {
+
+            for(var i = 0; i<infoArray.length; i++) {//提示
+                var infoId = infoArray[i].id;//得到class
+                var infoTr = $("tbody."+infoId+" tr td a");
+                var j = infoTr.length/9;//有几行tr
+				if(j<1){
+					layer.msg("请给<b>"+infoArray[i].infoName+"</b>添加材料单");
+					return;
+				}
+            }
+            var objArr = new Array();
+            for(var i = 0; i<infoArray.length; i++){//有i个配置  的tbody
+                var infoId = infoArray[i].id;//得到class
+
+                var infoTr = $("tbody."+infoId+" tr td a");
+
+                var j = infoTr.length/9;//有几行tr
+                var arr = new Array(j);//共有j个对象
+
+				var infoObj = new Object();
+
+				infoObj.infoid = infoId;
+				infoObj.orderid = orderId;
+                console.log("i>>>"+i);
+                for(var x = 0,y = 1; x<y*9&&x<infoTr.length; x++){
+                    var temp = infoTr[x].innerText;//取出的该tbody的所有值
+					console.log("x>>>"+x);console.log("y>>>"+y);
+					if((x+1)%9==1){
+                        infoObj.materialName = temp;
+					}
+					if((x+1)%9==2){
+                        infoObj.supplierName = temp;
+					}
+					if((x+1)%9==3){
+                        infoObj.quantity = temp;
+					}
+					if((x+1)%9==4){
+                        infoObj.unit = temp;
+					}
+					if((x+1)%9==5){
+                        infoObj.summation = temp;
+					}
+					if((x+1)%9==6){
+                        infoObj.summationStr = temp;//合计耗材  string  TODO  数据库字段要修改
+					}
+					if((x+1)%9==7){
+                        infoObj.isorder = temp;
+					}
+					if((x+1)%9==8){
+                        infoObj.isover = temp;
+					}
+					if((x+1)%9==0){
+                        infoObj.remark = temp;
+					}
+					if(x==(y*9-1)){//一个对象
+						/*将对象序列号再解析，防止引用导致的tempObj 一直为一个*/
+						var tempObj = JSON.parse(JSON.stringify(infoObj));
+                        arr[y-1] = tempObj;
+						y++;
+					}
+				}
+                objArr =  objArr.concat(arr);//合并array
+			}
+
+            layer.msg('确认修改材料单？', {
+                time: 0 //不自动关闭
+                ,shade:0.01
+                ,btn: ['确认', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url : "/orderMaterial/edit/"+orderId,
+                        type : "POST",
+                        data : JSON.stringify(objArr),
+                        contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
+                        beforeSend:function(){
+                            index = layer.msg('提交中...', {icon: 16,time: 20000,shade:0.01});
+                        },
+                        success : function(data) {
+                            layer.close(index);
+                            if(data=="材料修改成功"){
+                                layer.alert(data,{
+                                    end:function(){
+                                        window.location.replace(document.referrer);
+                                    }
+                                });
+                            }else{
+                                layer.msg(data);
+                            }
+                        },
+                        error : function(data) {
+                            alert(data.status);
+                            //$( '#serverResponse').html(data.status + " : " + data.statusText + " : " + data.responseText);
+                        }
+                    });
+
+                }
+            });
+        }
+
+	</script>
+
+</body>
+</html>

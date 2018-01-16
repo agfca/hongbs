@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>销售人员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<header class="header fl">
+    <div class="header-center centera">
+        <img th:src="@{/images/logo_03.png}" alt="" class="logo">
+        <!-- PC显示-->
+        <ul class="dcla-ul">
+            <li class=" activea  active">销售人员
+                <ol class="active-ol" style="display: none;">
+                </ol>
+            </li>
+            <span class="spann"><a href="/layout">退出</a></span>
+            <span class="spann"><b th:text="${session.user.getTitle()}"></b></span>
+            <span class="spann">当前用户:<b th:text="${session.user.getName()}"></b></span>
+        </ul>
+    </div>
+    <img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+</header>
+<div class="tj-div">
+    <!-- 时间-->
+</div>
+<div class="main">
+<div class="xg-mm">
+    <p><label>订单名称:</label><input type="text" id="orderName" placeholder="请输入订单名称" class="xg-mm-font"></p>
+    <p><label>单号:</label><input type="text" id="oddNum" placeholder="请输入单号" class="xg-mm-font"></p>
+    <p><label>单位名称:</label><input type="text" id="partyA" placeholder="请输入单位名称" class="xg-mm-font"></p>
+    <p><label>交货时间:</label><input type="datetime-local"id="deliveryTime" placeholder="请输入交货时间" class="xg-mm-font"></p>
+    <p><label>主面料名称:</label><input type="text" class="xg-mm-font" id="mainFabric"></p>
+    <p><label>主面料数量:</label><input type="text" class="xg-mm-font" id="mainNum"></p>
+    <p><label>主面料文件:</label><input type="file" class="xg-mm-font" id="mainFabricFile"></p>
+    <p><label>辅料名称:</label><input type="text" class="xg-mm-font" id="auxFabric"></p>
+    <p><label>辅料数量:</label><input type="text" class="xg-mm-font" id="auxNum"></p>
+    <p><label>辅料文件:</label><input type="file" class="xg-mm-font" id="auxFabricFile"></p>
+    <p><label>型号名称:</label><input type="text" class="xg-mm-font" id="model"></p>
+    <p><label>型号数量:</label><input type="text" class="xg-mm-font" id="modelNum"></p>
+    <p><label>型号文件:</label><input type="file" class="xg-mm-font" id="modelFile"></p>
+    <p><label>备注:</label><input type="text" id="remark" placeholder="请输入备注" class="xg-mm-font"></p>
+    <p id="serverResponse" style="color: red;"></p>
+    <p><input type="button" value="确认提交" onclick="postOrder()" class="xg-an"></p>
+</div>
+    <input type="text" id="pwd"/>
+    <input type="button" value="修改密码测试按钮" onclick="updateUserPwd()"/>
+</div>
+<script th:src="@{/js/xiaoshou.js}"></script>
+</body>
+</html>

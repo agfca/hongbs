@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>订单配置详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/js/plugins/bootstrap-editable/bootstrap-editable.css}">
+
+	<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap-editable/bootstrap-editable.min.js}"></script>
+	<script th:src="@{/js/plugins/layer/layer.js}"></script>
+	<!--引入JS-->
+
+</head>
+<body>
+
+	<div class="main table-responsive">
+		<table id="orderDetail">
+		</table>
+	</div>
+<div class="container">
+	<div class="row">
+		<table class="table table-bordered">
+			<caption>
+				<div class="row">
+					<div class='col-sm-5'></div><div class='col-sm-1'><img src="/images/hongbs.svg"></div>
+					<div  width="150px">重庆泓搏仕服饰有限公司<br>生产计划单</div><div class='col-sm-5'></div>
+				</div>
+			</caption>
+			<tr>
+				<th>单号：<span th:text="${order.oddNum}?${order.oddNum}:'还未下单'"></span></th>
+				<th>学校名称：<span th:text="${order.partyA}"></span></th>
+				<th>订单名称：<span th:text="${order.orderName}?${order.orderName}:'bug'"></span></th>
+			</tr>
+			<tr>
+				<th>下单时间：<span th:text="${order.oddNum}?${order.orderTime}:'还未下单'"></span></th>
+				<th>交货时间：<span th:text="${order.deliveryTime}"></span></th>
+				<td></td>
+			</tr>
+			<tr>
+				<th colspan="2">* 配置：<span th:text="${orderInfo.infoName}"></span></th>
+				<td>* 总数（合计）：<span th:text="${orderInfo.total}"></span></td>
+			</tr>
+			<tr>
+				<td colspan="2"  style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;">
+					<table id="fabricTable" class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<thead>
+							<tr>
+								<th>* 面料
+								</th>
+								<th>颜色</th>
+								<th colspan="2">* 工艺要求</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;"></td>
+								<td style="
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;"></td>
+								<td colspan="2" class="col-sm-4" rowspan="10" style="word-wrap: break-word">
+									<span th:text="${orderInfo.gongyi}"></span>
+								</td>
+							</tr>
+							<tr th:each="fabric:${fabric}" >
+								<td th:text="${fabric.name}"></td>
+								<td th:text="${fabric.color}"></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>* 款式</th>
+								<th colspan="3"><span th:text="${orderInfo.style}"></span></th>
+							</tr>
+							<tr>
+								<th colspan="4"> 款式图</th>
+							</tr>
+							<tr>
+								<td colspan="4" class="row" >
+									<div th:each="image:${styleImage}" style="float: left">
+										<img th:src="|/word/${order.id}/${image}|" style="width: 200px;"/>
+									</div>
+
+									<!--<img th:src="|/word/${order.id}/${styleImage.0}|" class="col-sm-4">-->
+									<!--<img src="/images/test2.png" class="col-sm-4">-->
+								</td>
+							</tr>
+							<tr>
+								<th>* 有无给客户留样衣：</th>
+								<th colspan="3"><span th:text="${orderInfo.giveKH}"></span></th>
+							</tr>
+							<tr>
+								<th>* 含量</th>
+								<th colspan="3"><span th:text="${orderInfo.containFabric}"></span></th>
+							</tr>
+							<tr>
+								<th>* 校微</th>
+								<th><span th:text="${orderInfo.logoStation}"></span></th>
+								<th> 位置</th>
+								<td>
+									<img th:width="200px" th:if="${orderInfo.logoFile!=null&&orderInfo.logoFile!=''&&orderInfo.logoFile!=' '}" th:src="|/word/${order.id}/${orderInfo.logoFile}|">
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</td>
+				<td class="col-sm-4" style="  padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;">
+					<!--型号数量table-->
+					<table class="table table-bordered" border="1" cellspacing="0" cellpadding="0">
+						<tr>
+							<th>型号（身高）</th>
+							<th>数量</th>
+						</tr><tr>
+							<td>XXS(110)</td>
+						<td><span th:text="${orderInfo.XXS}"></span></td>
+						</tr><tr>
+							<td>XXS_M(115)</td>
+							<td><span th:text="${orderInfo.XXS_M}"></span></td>
+						</tr><tr>
+							<td>XS(120)</td>
+							<td><span th:text="${orderInfo.XS}"></span></td>
+						</tr><tr>
+							<td>XS_M(125)</td>
+							<td><span th:text="${orderInfo.XS_M}"></span></td>
+						</tr><tr>
+							<td>S(130)</td>
+							<td><span th:text="${orderInfo.S}"></span></td>
+						</tr><tr>
+							<td>S_M(135)</td>
+							<td><span th:text="${orderInfo.S_M}"></span></td>
+						</tr><tr>
+							<td>M(140)</td>
+							<td><span th:text="${orderInfo.M}"></span></td>
+						</tr><tr>
+							<td>M_M(145)</td>
+							<td><span th:text="${orderInfo.M_M}"></span></td>
+						</tr><tr>
+							<td>L(150)</td>
+							<td><span th:text="${orderInfo.L}"></span></td>
+						</tr><tr>
+							<td>L_M(155)</td>
+							<td><span th:text="${orderInfo.L_M}"></span></td>
+						</tr><tr>
+							<td>XL(160)</td>
+							<td><span th:text="${orderInfo.XL}"></span></td>
+						</tr><tr>
+							<td>XL_M(165)</td>
+							<td><span th:text="${orderInfo.XL_M}"></span></td>
+						</tr><tr>
+							<td>XXL(170)</td>
+							<td><span th:text="${orderInfo.XXL}"></span></td>
+						</tr><tr>
+							<td>XXL_M(175)</td>
+							<td><span th:text="${orderInfo.XXL_M}"></span></td>
+						</tr><tr>
+							<td>XXXL(180)</td>
+							<td><span th:text="${orderInfo.XXXL}"></span></td>
+						</tr><tr>
+							<td>XXXL_M(185)</td>
+							<td><span th:text="${orderInfo.XXXL_M}"></span></td>
+						</tr><tr>
+							<td>XXXXS(190)</td>
+							<td><span th:text="${orderInfo.XXXXS}"></span></td>
+						</tr><tr>
+							<td>XXXXS_M(195)</td>
+							<td><span th:text="${orderInfo.XXXXS_M}"></span></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+</div>
+
+
+</body>
+</html>

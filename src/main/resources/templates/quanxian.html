@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>权限配置</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/plugins/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/js/plugins/bootstrapTable/bootstrap-table.min.css}">
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<script th:src="@{/js/plugins/jquery-1.11.3.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrapTable/bootstrap-table-zh-CN.js}"></script>
+
+<script th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+	<header class="header fl">
+		<div class="header-center centera">
+			<img th:src="@{/images/logo_03.png}" alt="" class="logo">
+			<!-- PC显示-->
+			<ul class="dcla-ul">
+				<li class=" activea  active"><a href="/users?method=toadmin">
+						统计页面</a></li>
+				<li class=" activea  active">权限配置
+					<ol class="active-ol" style="display: none;">
+					</ol>
+				</li>
+				<span class="spann"><b th:text="${session.user.getName()}"></b><a
+					href="/users?method=changePass" class="xg-password">修改密码</a><a
+					href="/layout" class="xg-password">退出 &nbsp;&nbsp;</a></span>
+			</ul>
+		</div>
+		<img th:src="@{/images/banner.png}" class="banner" alt="弘博士">
+	</header>
+	<div class="tj-div">
+		<!-- 时间-->
+	</div>
+	<div class="main xg-mm">
+		<p>
+			<label>职位:</label> 
+			<select class="xg-mm-font xj-gg" id="jobe"
+				onchange="choose_apart();">
+				<option value="0">管理员</option>
+				<option value="1">销售</option>
+				<option value="2_5">工艺/算料</option>
+ 				<option value="3">下单</option>
+				<option value="4">制版</option>
+				<option value="6">采购</option>
+				<option value="7_11_12">生产安排</option>
+				<option value="8">厂部管理</option>
+				<option value="9">配料</option>
+				<option value="15">裁床</option>
+				<option value="9_1">衬衫部主管</option>
+				<option value="9_2">礼服部主管</option>
+				<option value="9_3">运动部主管</option>
+				<option value="10">尾部包装</option>
+				<option value="111_131">直营部主管</option>
+				<option value="112_132">招商部主管</option>
+				<option value="113_133">外贸部主管</option>
+				<option value="131_132_133">财务</option>
+				<option value="16">复核</option>
+				<option value="17_16">总管</option>
+ 			</select>
+		</p>
+
+		<p>
+			<label>请输入登录名:</label><input type="text" placeholder="请输入登录名"
+				id="name" class="xg-mm-font"/>
+		</p>
+		<p>
+			<label>手机号:</label> <input type="text" placeholder="请输入手机号"
+				id="phonenumber" class="xg-mm-font"/>
+		</p>
+		<p id="apartment_p" style="display: none">
+			<label>所属部门:</label>
+			<select class="xg-mm-font xj-gg" id="apartment">
+				<option value="111">直营部</option>
+				<option value="112">招商部</option>
+				<option value="113">外贸部</option>
+			</select>
+		</p>
+		<p>
+			<input type="hidden" id="id" value=""/>
+			<input type="button" value="确认添加" class="xg-an"
+				onclick="addPerson();" id="addbutton">
+		</p>
+	</div>
+	<div class="main table-responsive">
+		<table id="userJson"
+			class="table tabla table-bordered table-hover tablb tabll"
+			style="border: 1px solid #ddd;">
+		</table>
+	</div>
+	<script th:src="@{/js/qx.js}"></script>
+	<script>
+		$(document).ready(function(e) {
+			var counter = 0;
+			if (window.history && window.history.pushState) {
+				$(window).on('popstate', function() {
+					window.history.pushState('forward', null, '#');
+					window.history.forward(1);
+					alert("回退是登录界面......");
+				});
+			}
+		});
+	</script>
+</body>
+</html>
